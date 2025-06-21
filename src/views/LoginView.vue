@@ -43,6 +43,9 @@ const login = async () => {
     alert(err.response?.data?.message || '로그인 실패')
   }
 }
+const goToRegister = () => {
+  router.push('/register')
+}
 </script>
 
 <style scoped>
