@@ -25,28 +25,26 @@ const router = useRouter()
 
 const login = async () => {
   try {
-    const res = await axios.post('/api/members/login', {
+    const res = await axios.post('http://localhost:8080/api/members/login', {
       username: username.value,
       password: password.value
     })
-    if (res.data.success) {
-      localStorage.setItem('userLoggedIn', 'true')
-      router.push('/register')
+
+    const user = res.data
+    localStorage.setItem('user', JSON.stringify(user))
+
+    // 🔥 역할에 따라 이동
+    if (user.role === 'ROLE_ADMIN') {
+      router.push('/admin')
     } else {
-      alert('로그인 실패: ' + (res.data.message || '서버 응답 없음'))
+      router.push('/dashboard')
     }
   } catch (err) {
-    const msg = err.response?.data?.message || err.message || '알 수 없는 오류'
-    alert('에러: ' + msg)
+    alert(err.response?.data?.message || '로그인 실패')
   }
-
-}
-
-
-const goToRegister = () => {
-  router.push('/register')
 }
 </script>
+
 <style scoped>
 .login-container {
   max-width: 400px;

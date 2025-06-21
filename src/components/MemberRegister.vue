@@ -52,14 +52,21 @@ const submitForm = async () => {
     return
   }
 
+  // 역할을 Spring Security 형식에 맞춰 변환
+  const role = form.value.role === '운영자' ? 'ROLE_ADMIN' : 'ROLE_MEMBER'
+
   try {
-    const res = await axios.post('/api/members', form.value)
+    const res = await axios.post('/api/members', {
+      ...form.value,
+      role: role // 변환된 역할값
+    })
     response.value = res.data
     alert('회원 가입이 완료되었습니다.')
   } catch (err) {
     alert('에러 발생: ' + (err.response?.data?.message || err.message))
   }
 }
+
 </script>
 
 <style scoped>
