@@ -3,9 +3,11 @@
     <div class="nav-left">
       <router-link to="/dashboard" class="nav-link">대시보드</router-link>
       <router-link to="/admin" class="nav-link" v-if="user?.role === 'ROLE_ADMIN'">관리자</router-link>
+      <router-link to="/admin/members" class="nav-link" v-if="user?.role === 'ROLE_ADMIN'">회원관리</router-link>
     </div>
     <div class="nav-right">
       <span v-if="user" class="username">{{ user.username }} 님</span>
+      <button @click="goToProfile" class="profile-btn">회원정보</button>
       <button @click="logout" class="logout-btn">로그아웃</button>
     </div>
   </nav>
@@ -30,7 +32,11 @@ const logout = () => {
   alert('로그아웃 되었습니다.')
   router.push('/login')
 }
+const goToProfile = () => {
+  router.push('/profile')
+}
 </script>
+
 
 <style scoped>
 .navbar {
@@ -65,5 +71,20 @@ const logout = () => {
 
 .username {
   margin-right: 12px;
+}
+
+.profile-btn {
+  background: none;
+  border: 1px solid white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 8px;
+  color: white;
+}
+
+.profile-btn:hover {
+  background-color: white;
+  color: #2d8cf0;
 }
 </style>
