@@ -8,9 +8,9 @@
       <button type="submit">로그인</button>
     </form>
 
-    <hr />
+<!--    <hr />-->
 
-    <button class="register-btn" @click="goToRegister">회원 가입</button>
+<!--    <button class="register-btn" @click="goToRegister">회원 가입</button>-->
   </div>
 </template>
 
@@ -19,10 +19,12 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
+// 반응형 상태 정의
 const username = ref('')
 const password = ref('')
 const router = useRouter()
 
+// 로그인 요청 함수
 const login = async () => {
   try {
     const res = await axios.post('http://localhost:8080/api/members/login', {
@@ -31,9 +33,9 @@ const login = async () => {
     })
 
     const user = res.data
-    localStorage.setItem('user', JSON.stringify(user))
+    localStorage.setItem('user', JSON.stringify(user)) // 로그인 정보 저장
 
-    // 🔥 역할에 따라 이동
+    // 역할에 따라 페이지 이동
     if (user.role === 'ROLE_ADMIN') {
       router.push('/admin')
     } else {
@@ -43,13 +45,15 @@ const login = async () => {
     alert(err.response?.data?.message || '로그인 실패')
   }
 }
+
+// 회원가입 페이지 이동 함수
 const goToRegister = () => {
   router.push('/register')
 }
 </script>
 
 <style scoped>
-.login-container {
+.login-container { /* 로그인 박스 */
   max-width: 400px;
   margin: 60px auto;
   padding: 30px;
@@ -107,3 +111,4 @@ hr {
   margin: 20px 0;
 }
 </style>
+

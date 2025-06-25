@@ -17,9 +17,14 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
+// form은 빈 상태로 초기화
 const form = ref({ name: '', phone: '', region: '', age: 0 })
+
+// 로그인한 사용자 정보는 localStorage에서 불러옴
 const user = JSON.parse(localStorage.getItem('user'))
 
+// 컴포넌트가 로드되었을 때 실행
 onMounted(() => {
   if (!user) {
     alert('로그인 필요')
@@ -27,6 +32,7 @@ onMounted(() => {
     return
   }
 
+  // 서버에서 사용자 정보 조회
   axios.get(`http://localhost:8080/api/members/${user.id}`)
       .then(res => {
         form.value = res.data
@@ -40,17 +46,19 @@ onMounted(() => {
       })
 })
 
+// 수정 버튼 클릭 시 실행
 const updateProfile = () => {
   axios.put(`http://localhost:8080/api/members/${user.id}`, form.value)
       .then(() => {
         alert('수정 완료')
-        router.push('/dashboard')
+        router.push('/dashboard') // 수정 후 대시보드로 이동
       })
       .catch(() => {
         alert('수정 실패')
       })
 }
 </script>
+
 
 <style scoped>
 .profile-container {
