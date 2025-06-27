@@ -14,7 +14,7 @@ import AdminEventRegister from '../views/AdminEventRegister.vue'
 import EventRegister from '../views/EventRegister.vue'
 import AdminEventList from '../views/AdminEventList.vue'
 import AdminEventEdit from '../views/AdminEventEdit.vue'
-
+import AdminAttendanceStats from '../views/AdminAttendanceStats.vue'
 // 각 경로(path)에 해당하는 컴포넌트를 연결하는 라우트 설정 배열
 const routes = [
     { path: '/', redirect: '/login' }, // 기본 경로 접속 시 로그인으로 리다이렉트
@@ -32,7 +32,9 @@ const routes = [
     { path: '/admin/event-register', component: AdminEventRegister }, // 벙 생성
     { path: '/admin/event-view', component: AdminEventList }, // 벙 조회 리스트
 
-    { path: '/admin/event-edit', component: AdminEventEdit }
+    { path: '/admin/event-edit', component: AdminEventEdit },
+    { path: '/admin/attendance-stats', component: AdminAttendanceStats }
+
 ]
 
 // Vue Router 인스턴스 생성 (히스토리 모드 사용)

@@ -11,6 +11,8 @@
       <router-link to="/admin/members" class="nav-link" v-if="user?.role === 'ROLE_ADMIN'">회원관리</router-link>
       <router-link to="/admin/event-register" class="nav-link" v-if="user?.role === 'ROLE_ADMIN'">벙 생성</router-link>
       <router-link to="/admin/event-view" class="nav-link" v-if="user?.role === 'ROLE_ADMIN'">벙 조회</router-link>
+      <router-link to="/admin/attendance-stats" class="nav-link" v-if="user?.role === 'ROLE_ADMIN'">벙 순위 통계</router-link>
+
     </div>
 
     <!-- 오른쪽 사용자 정보 및 버튼 -->

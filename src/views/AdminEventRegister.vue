@@ -10,7 +10,7 @@
       <div class="members-list">
         <label v-for="m in members" :key="m.id">
           <input type="checkbox" :value="m.id" v-model="selectedMemberIds" />
-          {{ m.name }} ({{ m.username }})
+          {{ m.name }} ({{ m.age }})
         </label>
       </div>
 
@@ -30,8 +30,8 @@ const selectedMemberIds = ref([])
 const router = useRouter()
 
 onMounted(() => {
-  axios.get('http://localhost:8080/api/admin/members')
-      .then(res => members.value = res.data)
+  axios.get('http://localhost:8080/api/admin/members?page=0&size=1000') // 충분히 큰 size
+      .then(res => members.value = res.data.content) // ✅ content만 추출
       .catch(() => alert('회원 조회 실패'))
 })
 
@@ -49,7 +49,7 @@ const createEvent = () => {
   })
       .then(() => {
         alert('벙 생성 완료')
-        router.push('/admin')  // 관리자 화면으로 이동
+        router.push('/admin')
       })
       .catch(() => alert('벙 생성 실패'))
 }

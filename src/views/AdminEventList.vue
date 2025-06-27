@@ -18,10 +18,10 @@
         <td>{{ e.title }}</td>
         <td>{{ e.location }}</td>
         <td>{{ e.date }}</td>
-        <td>{{ e.usernames.length }}</td>
+        <td>{{ e.memberNames?.length || 0 }}</td> <!-- ✅ 수정된 부분 -->
         <td>
           <ul>
-            <li v-for="username in e.usernames" :key="username">{{ username }}</li>
+            <li v-for="name in e.memberNames" :key="name">{{ name }}</li>
           </ul>
         </td>
         <td><button @click="editEvent(e)">수정</button></td>
@@ -61,34 +61,83 @@ function deleteEvent(id) {
   }
 }
 
-function editEvent(event) {
-  localStorage.setItem('editEvent', JSON.stringify(event))
+const editEvent = (event) => {
+  localStorage.setItem('editEvent', JSON.stringify({
+    id: event.id,
+    title: event.title,
+    location: event.location,
+    date: event.date,
+    memberIds: event.memberIds || [],
+    memberNames: event.memberNames || []  // ✅ 여기 변경
+  }))
   router.push('/admin/event-edit')
 }
+
+
 </script>
 
 <style scoped>
-/* 전체 테이블 컨테이너 스타일 */
 .event-list-container {
-  max-width: 800px;
-  margin: 50px auto;
+  max-width: 1000px;
+  margin: 60px auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: 'Arial', sans-serif;
 }
 
-/* 테이블 기본 스타일 */
+h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #2d8cf0;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 15px;
 }
 
-/* 테이블 셀 스타일 */
 th, td {
-  border: 1px solid #ddd;
-  padding: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 10px 12px;
   text-align: center;
+  vertical-align: middle;
 }
 
-/* 헤더 배경 색상 */
 th {
-  background-color: #f4f4f4;
+  background-color: #f9f9f9;
+  color: #333;
 }
+
+ul {
+  padding-left: 16px;
+  margin: 0;
+  text-align: left;
+}
+
+button {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+button:nth-child(1) {
+  background-color: #4caf50;
+  color: white;
+}
+
+button:nth-child(2) {
+  background-color: #f44336;
+  color: white;
+}
+
 </style>
