@@ -18,7 +18,7 @@
               :value="m.id"
               v-model="selectedIds"
           />
-          {{ m.name }} ({{ m.username }})
+          {{ m.name }} ({{ m.age }})
         </label>
       </div>
 
@@ -137,11 +137,14 @@ onMounted(async () => {
   form.value = { ...saved }
 
   // 🔑 체크박스와 일치하도록 숫자 ID 배열 보장
-  selectedIds.value = (saved.memberIds || []).map(id => parseInt(id))
+  selectedIds.value = (saved.memberIds || []).map(Number)
+
+
 
   try {
-    const res = await axios.get('http://localhost:8080/api/admin/members')
-    members.value = res.data
+    const res = await axios.get('http://localhost:8080/api/admin/members?size=1000')
+    members.value = res.data.content
+    console.log(members.value)
   } catch {
     alert('멤버 목록 조회 실패')
   }

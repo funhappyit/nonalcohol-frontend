@@ -15,8 +15,14 @@
         <input v-model="form.region" />
       </label>
 
-      <label>나이:
-        <input type="number" v-model.number="form.age" min="0" />
+      <label>나이(출생연도):
+        <input
+            type="text"
+            v-model="form.age"
+            placeholder="예: 90, 00, 01"
+            maxlength="2"
+            pattern="\d{2}"
+        />
       </label>
 
       <label>신입 여부:
@@ -70,7 +76,7 @@ const updateMember = () => {
   axios.put(`http://localhost:8080/api/members/${form.value.id}`, form.value)
       .then(() => {
         alert('수정 완료')
-        router.push('/admin')
+        router.push('/admin/members')
       })
       .catch(() => alert('수정 실패'))
 }

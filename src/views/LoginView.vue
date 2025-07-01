@@ -37,7 +37,7 @@ const login = async () => {
 
     // 역할에 따라 페이지 이동
     if (user.role === 'ROLE_ADMIN') {
-      router.push('/admin')
+      router.push('/dashboard')
     } else {
       router.push('/dashboard')
     }

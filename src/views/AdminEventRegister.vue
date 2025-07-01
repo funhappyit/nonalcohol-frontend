@@ -7,8 +7,14 @@
       <label>날짜: <input type="date" v-model="form.date" required /></label>
 
       <h3>참가자 선택</h3>
+      <input
+          v-model="searchKeyword"
+          placeholder="이름 검색"
+          class="search-input"
+      />
+
       <div class="members-list">
-        <label v-for="m in members" :key="m.id">
+        <label v-for="m in filteredMembers" :key="m.id">
           <input type="checkbox" :value="m.id" v-model="selectedMemberIds" />
           {{ m.name }} ({{ m.age }})
         </label>
@@ -20,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 
@@ -28,6 +34,7 @@ const form = ref({ title: '', location: '', date: '' })
 const members = ref([])
 const selectedMemberIds = ref([])
 const router = useRouter()
+const searchKeyword = ref('')
 
 onMounted(() => {
   axios.get('http://localhost:8080/api/admin/members?page=0&size=1000') // 충분히 큰 size
@@ -53,6 +60,13 @@ const createEvent = () => {
       })
       .catch(() => alert('벙 생성 실패'))
 }
+
+const filteredMembers = computed(() => {
+  if (!searchKeyword.value) return members.value
+  return members.value.filter(m =>
+      m.name.toLowerCase().startsWith(searchKeyword.value.toLowerCase())
+  )
+})
 </script>
 
 <style scoped>
@@ -75,5 +89,11 @@ const createEvent = () => {
   overflow-y: auto;
   border: 1px solid #ccc;
   padding: 8px;
+}
+.search-input {
+  margin-bottom: 8px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 </style>

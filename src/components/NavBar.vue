@@ -7,7 +7,7 @@
       <router-link to="/dashboard" class="nav-link">대시보드</router-link>
 
       <!-- 관리자 전용 메뉴 (v-if 조건) -->
-      <router-link to="/admin" class="nav-link" v-if="user?.role === 'ROLE_ADMIN'">관리자</router-link>
+<!--      <router-link to="/admin" class="nav-link" v-if="user?.role === 'ROLE_ADMIN'">관리자</router-link>-->
       <router-link to="/admin/members" class="nav-link" v-if="user?.role === 'ROLE_ADMIN'">회원관리</router-link>
       <router-link to="/admin/event-register" class="nav-link" v-if="user?.role === 'ROLE_ADMIN'">벙 생성</router-link>
       <router-link to="/admin/event-view" class="nav-link" v-if="user?.role === 'ROLE_ADMIN'">벙 조회</router-link>

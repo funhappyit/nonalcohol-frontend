@@ -4,6 +4,15 @@
 
     <div class="top-bar">
       <button class="register-btn" @click="goToRegister">회원 등록</button>
+      <div class="search-box">
+        <input
+            v-model="searchKeyword"
+            @keyup.enter="search"
+            placeholder="이름 또는 지역 검색"
+        />
+        <button @click="search">검색</button>
+        <button @click="resetSearch">초기화</button>
+      </div>
       <span class="member-count">총 회원 수: {{ totalCount }}명</span>
     </div>
 
@@ -67,9 +76,12 @@ const router = useRouter()
 
 onMounted(() => loadMembers(currentPage.value))
 
+const searchKeyword = ref('')
+
 function loadMembers(page) {
+  const keywordParam = searchKeyword.value ? `&keyword=${encodeURIComponent(searchKeyword.value)}` : ''
   axios
-      .get(`http://localhost:8080/api/admin/members?page=${page - 1}&size=${pageSize}`)
+      .get(`http://localhost:8080/api/admin/members?page=${page - 1}&size=${pageSize}${keywordParam}`)
       .then(res => {
         members.value = res.data.content
         console.log(members.value);
@@ -78,6 +90,17 @@ function loadMembers(page) {
       })
       .catch(() => alert('회원 목록 조회 실패'))
 }
+
+function search() {
+  currentPage.value = 1
+  loadMembers(1)
+}
+
+function resetSearch() {
+  searchKeyword.value = ''
+  loadMembers(1)
+}
+
 
 const deleteMember = (id) => {
   if (confirm('정말 삭제하시겠습니까?')) {
@@ -196,5 +219,26 @@ th {
 .pagination button:disabled {
   opacity: 0.4;
   cursor: default;
+}
+
+.search-box {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.search-box input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.search-box button {
+  padding: 6px 10px;
+  border: none;
+  background-color: #eee;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.search-box button:hover {
+  background-color: #ddd;
 }
 </style>
