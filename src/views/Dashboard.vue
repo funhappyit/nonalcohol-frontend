@@ -70,9 +70,11 @@ function denyAccess() {
 
 async function loadDashboardData() {
 
-  const [region, ranking] = await Promise.all([ // ranking도 구조분해에 추가해야 함
+  const [region, ranking,weekly,age] = await Promise.all([ // ranking도 구조분해에 추가해야 함
     axios.get('/api/dashboard/region'),
-    axios.get('/api/dashboard/monthly-ranking')
+    axios.get('/api/dashboard/monthly-ranking'),
+    axios.get('/api/dashboard/weekly-participation'),
+    axios.get('/api/dashboard/age')
   ])
 
   const transformedRegionData = {
@@ -85,9 +87,22 @@ async function loadDashboardData() {
     values: ranking.data.map(item => item.count)
   }
 
+  const transformedWeeklyData = {
+    labels: weekly.data.map(item => item.week), // 예: '6월 1주차'
+    values: weekly.data.map(item => item.count)
+  }
 
+  const transformedAgeData = {
+    labels: age.data.map(item => item.label),
+    values: age.data.map(item => item.count)
+  }
   renderChart('regionChart', '지역별 분포도', transformedRegionData)
   renderChart('monthlyRankingChart', '월별 벙 참여 순위', transformedRankingData)
+  renderChart('weeklyParticipationChart', '주간별 벙 참가 인원', transformedWeeklyData)
+  renderChart('ageChart', '나이별 맴버 분포도', transformedAgeData)
+  console.log('age data:', age.data)
+  console.log('transformedAgeData:', transformedAgeData)
+
   // const [region, ranking, weekly, age, rate, non] = await Promise.all([
   //   axios.get('/api/dashboard/region')
   //    axios.get('/api/dashboard/monthly-ranking'),

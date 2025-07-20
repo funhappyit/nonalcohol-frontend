@@ -28,7 +28,9 @@
       </tbody>
     </table>
 
-    <h2 style="margin-top: 40px;">미참가자</h2>
+    <h2 style="margin-top: 40px;">
+      미참가자 ({{ nonParticipants.length }}명)
+    </h2>
     <ul>
       <li v-for="stat in nonParticipants" :key="stat.id">
         {{ stat.name }} ({{ stat.age }})
@@ -53,9 +55,7 @@ async function fetchStats() {
       axios.get('http://localhost:8080/api/admin/members?size=1000')
     ])
     stats.value = statsRes.data
-    console.log(stats.value);
     allMembers.value = membersRes.data.content
-    console.log(allMembers.value);
   } catch {
     alert('데이터 조회 실패')
   }

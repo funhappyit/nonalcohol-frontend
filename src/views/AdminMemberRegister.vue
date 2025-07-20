@@ -7,8 +7,8 @@
         <input v-model="form.name" required />
       </label>
 
-      <label>나이:
-        <input type="number" v-model.number="form.age" min="0" required />
+      <label>년생:
+        <input type="number" v-model.number="form.age" min="00" required />
       </label>
 
       <label>지역:
